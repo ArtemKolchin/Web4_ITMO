@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+ <html>
+  <head>
+  	
+ 	<title>Dolgo.Dorogo.Oxoxo.</title>
+   	<meta charset="utf-8">
+    <link href="style.css" rel="stylesheet" type="text/css">
+    
+  </head>
+  <body>
+  	<center><h1 class="title">MAKE HORRIBLE IMAGE!</h1></center>
+ 	<div class="container center-align"> 
+  		<div class="row">
+		<center>	<canvas width="500" height="500" id="quotes"></canvas> </center>
+  		</div>
+  		<div class="button">
+  		 <center>	<button type="button" name="button" class="button_quote"> <i class="fa fa-quote-left" aria-hidden="true"></i>CLICK HERE!</button></center>
+	  	</div>
+  	</div>
+  	
+  
+  	
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+		
+	$(document).ready(function() {
+		var example = document.getElementById("quotes"),
+		ctx = example.getContext('2d'), 
+		pic = new Image();
+		var marginTop = 20;
+		
+		pic.src = 'https://picsum.photos/500/500/?random';  
+		pic.onload = function() {  
+			ctx.drawImage(pic, 0, 0);
+			ctx.strokeStyle = "red";
+			ctx.fillStyle = "yellow";
+			ctx.font = "30pt a";
+			randomQuote();
+			}
+  
+  	function wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight) {
+		var words = text.split(" ");
+		var countWords = words.length;
+		var line = "";
+		for (var n = 0; n < countWords; n++) {
+			var testLine = line + words[n] + " ";
+			var testWidth = context.measureText(testLine).width;
+			if (testWidth > maxWidth) {
+				context.fillText(line, marginLeft, marginTop);
+				context.strokeText(line, marginLeft, marginTop);
+				line = words[n] + " ";
+				marginTop += lineHeight;
+			}
+			else {
+			  	line = testLine;
+			}
+		  }
+		  context.fillText(line, marginLeft, marginTop);
+		  context.strokeText(line, marginLeft, marginTop);
+		}
+  	function randomQuote() {
+		$.ajax({
+		  	url: "https://api.forismatic.com/api/1.0/?",
+		  	dataType: "jsonp",
+		  	data: "method=getQuote&format=jsonp&lang=ru&jsonp=?",
+		  	success: function( response ) {
+				wrapText(ctx, response.quoteText, 40, 40, 420, 40);
+		  		}
+		});
+  	}
+     
+  	$("#new-quote").click(function(){
+		randomQuote();
+	  });
+		
+  	$(".button_quote").click(function(){
+		ctx.clearRect(0, 0, 500, 500);
+		pic = new Image();           
+		pic.src="https://picsum.photos/g/480/480?image="+ Math.floor(Math.random() * (1000)); 
+		pic.onload = function() {    
+		  	ctx.drawImage(pic, 0, 0);
+		  	randomQuote();
+			}
+	  })
+	});
+	</script>
+   
+  </body>
+</html>
