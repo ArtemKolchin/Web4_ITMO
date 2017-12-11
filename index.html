@@ -76,7 +76,7 @@
   	$(".button_quote").click(function(){
 		ctx.clearRect(0, 0, 500, 500);
 		pic = new Image();           
-		pic.src="https://picsum.photos/g/480/480?image="+ Math.floor(Math.random() * (1000)); 
+		pic.src="https://picsum.photos/500/500?image="+ Math.floor(Math.random() * (1000)); 
 		pic.onload = function() {    
 		  	ctx.drawImage(pic, 0, 0);
 		  	randomQuote();
